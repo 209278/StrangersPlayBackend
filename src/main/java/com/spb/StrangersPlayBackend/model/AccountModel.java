@@ -9,20 +9,15 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class Account {
+public class AccountModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private String email;
-
-    private String login;
-
-    private String lastName;
-
-    private String FirstName;
-
+    private String username;
     private String password;
-
+    private boolean active;
+    private String email;
+    private String firstName;
+    private String lastName;
 }

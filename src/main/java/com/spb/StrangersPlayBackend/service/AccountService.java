@@ -1,9 +1,10 @@
 package com.spb.StrangersPlayBackend.service;
 
-import com.spb.StrangersPlayBackend.model.Account;
+import com.spb.StrangersPlayBackend.dto.AccountDto;
+import com.spb.StrangersPlayBackend.model.AccountModel;
 
 public interface AccountService {
-    Account getUser(String userLogin);
+    AccountModel getUser(String userLogin);
 
-    void createUser(Account account);
+    void createUser(AccountDto accountDto);
 }
