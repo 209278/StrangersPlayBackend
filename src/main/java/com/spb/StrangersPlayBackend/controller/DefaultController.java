@@ -12,6 +12,6 @@ public class DefaultController {
 
     @GetMapping
     public String home() {
-        return "Home Page";
+        return "Home page";
     }
 }

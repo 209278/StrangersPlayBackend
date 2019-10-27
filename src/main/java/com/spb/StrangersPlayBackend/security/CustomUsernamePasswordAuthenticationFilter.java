@@ -27,8 +27,11 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
             if (parsedReq != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 AuthReq authReq = mapper.readValue(parsedReq, AuthReq.class);
-                return new UsernamePasswordAuthenticationToken(authReq.getUsername(), authReq.getPassword());
+                return this.getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(authReq.getUsername(), authReq.getPassword()));
             }
+        } catch (NullPointerException e) {
+            System.out.println("Failed login");
+            throw new InternalAuthenticationServiceException("Failed login attempt");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new InternalAuthenticationServiceException("Failed to parse authentication request body");
