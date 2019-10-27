@@ -4,9 +4,13 @@ import com.spb.StrangersPlayBackend.dto.AccountDto;
 import com.spb.StrangersPlayBackend.exception.NotUniqueUser;
 import com.spb.StrangersPlayBackend.mapper.DefaultMapper;
 import com.spb.StrangersPlayBackend.model.AccountModel;
+import com.spb.StrangersPlayBackend.repository.MyUserPrincipal;
 import com.spb.StrangersPlayBackend.repository.UserRepository;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +18,7 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -39,6 +43,11 @@ public class AccountServiceImpl implements AccountService {
             accountDto.setPassword(passwordEncoder.encode(accountDto.getPassword()));
             userRepository.save(mapperFacade.map(accountDto, AccountModel.class));
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return new MyUserPrincipal(userRepository.findAccountByUsername(s));
     }
 }
 
