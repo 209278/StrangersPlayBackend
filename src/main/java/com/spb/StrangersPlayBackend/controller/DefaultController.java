@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DefaultController {
 
     @GetMapping
-    public ResponseEntity home() {
-        return ResponseEntity.status(200).body(new JSONObject()
-                .put("httpCode", 200)
-                .put("message", "Logged").toString());
+    public String home() {
+        return "Home Page";
     }
 }
