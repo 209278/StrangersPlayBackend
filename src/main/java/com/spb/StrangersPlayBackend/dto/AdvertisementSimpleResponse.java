@@ -17,7 +17,7 @@ public class AdvertisementSimpleResponse {
     private String title;
     private int level;
     private Double price;
-    private Instant eventTime;
+    private String eventTime;
     private String eventLocation;
     private Instant creationTime;
 }
