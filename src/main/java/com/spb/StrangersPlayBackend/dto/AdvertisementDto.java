@@ -27,6 +27,6 @@ public class AdvertisementDto {
     @NotNull
     private String eventLocation;
     @NotNull
-    private Instant eventTime;
+    private String eventTime;
     private Instant creationTime;
 }
