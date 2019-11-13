@@ -1,12 +1,14 @@
 package com.spb.StrangersPlayBackend.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Data
 public class AccountModel {
@@ -20,4 +22,6 @@ public class AccountModel {
     private String email;
     private String firstName;
     private String lastName;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<CommentModel> commentList;
 }

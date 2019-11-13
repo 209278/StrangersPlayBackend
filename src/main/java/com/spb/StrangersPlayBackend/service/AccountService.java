@@ -6,5 +6,7 @@ import com.spb.StrangersPlayBackend.model.AccountModel;
 public interface AccountService {
     AccountModel getUser(String userLogin);
 
-    void createUser(AccountDto accountDto);
+    AccountModel createUser(AccountDto accountDto);
+
+    AccountModel updateUser(AccountModel accountModel);
 }

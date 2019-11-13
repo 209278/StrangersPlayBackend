@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +21,6 @@ public class AccountDto {
     private String email;
     private String firstName;
     private String lastName;
+    private List<CommentDto> commentList;
+
 }
