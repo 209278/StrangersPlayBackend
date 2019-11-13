@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
