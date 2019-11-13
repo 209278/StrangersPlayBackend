@@ -1,6 +1,7 @@
 package com.spb.StrangersPlayBackend.controller;
 
 import com.spb.StrangersPlayBackend.dto.AccountDto;
+import com.spb.StrangersPlayBackend.model.AccountModel;
 import com.spb.StrangersPlayBackend.response.CustomResponse;
 import com.spb.StrangersPlayBackend.exception.NotUniqueUser;
 import com.spb.StrangersPlayBackend.service.AccountService;
@@ -18,7 +19,7 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/register")
-    public ResponseEntity createEmployee(@Valid @RequestBody AccountDto accountDto) {
+    public ResponseEntity createUser(@Valid @RequestBody AccountDto accountDto) {
         try {
             accountService.createUser(accountDto);
             return ResponseEntity.status(201).body(new CustomResponse(201, "Account Created"));

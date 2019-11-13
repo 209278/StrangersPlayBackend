@@ -1,12 +1,14 @@
 package com.spb.StrangersPlayBackend.repository;
 
 import com.spb.StrangersPlayBackend.model.AccountModel;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@Getter
 public class MyUserPrincipal implements UserDetails {
 
     private AccountModel user;

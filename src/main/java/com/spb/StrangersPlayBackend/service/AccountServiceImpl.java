@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         return userRepository.findAccountByUsername(username);
     }
 
-    public void createUser(AccountDto accountDto) {
+    public AccountModel createUser(AccountDto accountDto) {
         if (getUser(accountDto.getUsername()) != null) {
             throw new NotUniqueUser("Not unique Username");
         } else if (userRepository.findAccountByEmail(accountDto.getEmail()) != null) {
@@ -41,8 +41,13 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         } else {
             accountDto.setActive(true);
             accountDto.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-            userRepository.save(mapperFacade.map(accountDto, AccountModel.class));
+            return userRepository.save(mapperFacade.map(accountDto, AccountModel.class));
         }
+    }
+
+    @Override
+    public AccountModel updateUser(AccountModel accountModel) {
+        return userRepository.save(accountModel);
     }
 
     @Override
