@@ -22,6 +22,8 @@ public class AccountModel {
     private String email;
     private String firstName;
     private String lastName;
+    private String description;
+    private int level;
     @OneToMany(cascade = CascadeType.ALL)
     private List<CommentModel> commentList;
 }

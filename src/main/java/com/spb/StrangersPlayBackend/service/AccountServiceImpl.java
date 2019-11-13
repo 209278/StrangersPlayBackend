@@ -1,7 +1,9 @@
 package com.spb.StrangersPlayBackend.service;
 
 import com.spb.StrangersPlayBackend.dto.AccountDto;
+import com.spb.StrangersPlayBackend.dto.EditAccountDto;
 import com.spb.StrangersPlayBackend.exception.NotUniqueUser;
+import com.spb.StrangersPlayBackend.exception.UserNotFoundException;
 import com.spb.StrangersPlayBackend.mapper.DefaultMapper;
 import com.spb.StrangersPlayBackend.model.AccountModel;
 import com.spb.StrangersPlayBackend.repository.MyUserPrincipal;
@@ -33,6 +35,15 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         return userRepository.findAccountByUsername(username);
     }
 
+    @Override
+    public AccountDto getUserDetails(int id) {
+        try {
+            return mapperFacade.map(userRepository.findAccountModelById(id), AccountDto.class);
+        } catch (NullPointerException e) {
+            throw new UserNotFoundException("User not found");
+        }
+    }
+
     public AccountModel createUser(AccountDto accountDto) {
         if (getUser(accountDto.getUsername()) != null) {
             throw new NotUniqueUser("Not unique Username");
@@ -48,6 +59,21 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     public AccountModel updateUser(AccountModel accountModel) {
         return userRepository.save(accountModel);
+    }
+
+    @Override
+    public AccountDto editUserProfile(int id, EditAccountDto editAccountDto) {
+        AccountModel user = userRepository.findAccountModelById(id);
+        if(!(editAccountDto.getFirstName() == null) && !editAccountDto.getFirstName().equals("")) {
+            user.setFirstName(editAccountDto.getFirstName());
+        }
+        if(!(editAccountDto.getLastName() == null) && !editAccountDto.getLastName().equals("")) {
+            user.setFirstName(editAccountDto.getLastName());
+        }
+        if(!(editAccountDto.getDescription() == null) && !editAccountDto.getDescription().equals("")) {
+            user.setFirstName(editAccountDto.getDescription());
+        }
+        return mapperFacade.map(userRepository.save(user), AccountDto.class);
     }
 
     @Override

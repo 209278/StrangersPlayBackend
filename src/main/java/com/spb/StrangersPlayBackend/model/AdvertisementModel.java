@@ -5,11 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,7 +19,6 @@ public class AdvertisementModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String username;
     private Category category;
     private String title;
     private String description;
@@ -30,6 +28,17 @@ public class AdvertisementModel {
     private int authorId;
     private byte[] image;
     private String eventTime;
+    private int userLimit;
+    @ElementCollection
+    private List<Integer> userIdsList = new ArrayList<>();
     @CreationTimestamp
     private Instant creationTime;
+
+    public void addUserIdToUserList(int id) {
+        userIdsList.add(id);
+    }
+
+    public void deleteUserIdFromUserList(int id) {
+        userIdsList.remove(userIdsList.indexOf(id));
+    }
 }

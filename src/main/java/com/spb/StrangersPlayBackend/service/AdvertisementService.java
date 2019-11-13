@@ -13,4 +13,8 @@ public interface AdvertisementService {
     AdvertisementDto getAdvertisementDetails(int id);
 
     List<AdvertisementSimpleResponse> getListOfAllAdvertisement();
+
+    AdvertisementDto joinAdvertisement(int id, int userId);
+
+    AdvertisementDto leaveAdvertisement(int id, int userId);
 }

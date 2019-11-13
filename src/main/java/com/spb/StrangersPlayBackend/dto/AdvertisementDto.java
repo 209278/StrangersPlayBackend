@@ -6,14 +6,14 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 public class AdvertisementDto {
 
     private int id;
-    @NotNull
-    private String username;
     @NotNull
     private Category category;
     @NotNull
@@ -31,4 +31,8 @@ public class AdvertisementDto {
     private Instant creationTime;
     private int authorId;
     private byte[] image;
+    private int userLimit;
+    private List<Integer> userIdsList;
+
+
 }
