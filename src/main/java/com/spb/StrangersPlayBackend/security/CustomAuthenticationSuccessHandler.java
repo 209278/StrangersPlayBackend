@@ -20,12 +20,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request,
             HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
-        MyUserPrincipal user = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = ((MyUserPrincipal) authentication.getPrincipal()).getUser().getId();
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         response.getWriter().write(new JSONObject()
                 .put("httpCode",200)
                 .put("message", "Logged")
-                .put("userId", user.getUser().getId()).toString());
+                .put("userId", userId).toString());
     }
 }

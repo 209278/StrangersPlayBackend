@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -24,6 +25,22 @@ public class AccountModel {
     private String lastName;
     private String description;
     private int level;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<CommentModel> commentList;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<CommentModel> commentList =new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "AccountModel{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", description='" + description + '\'' +
+                ", level=" + level +
+                ", commentList=" + commentList +
+                '}';
+    }
 }
