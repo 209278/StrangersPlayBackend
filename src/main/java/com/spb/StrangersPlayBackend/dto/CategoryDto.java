@@ -20,6 +20,6 @@ public class CategoryDto {
     public CategoryDto(Category category) throws IOException {
         this.name = category.getCategoryName();
         this.type = category.name();
-        this.image = Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(new File(getClass().getResource(category.getFilename()).getPath())));
+        this.image = Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(new File(getClass().getClassLoader().getResource(category.getFilename()).getPath())));
     }
 }
