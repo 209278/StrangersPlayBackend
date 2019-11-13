@@ -22,4 +22,10 @@ public class CategoryDto {
         this.type = category.name();
         this.image = Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(new File(getClass().getClassLoader().getResource(category.getFilename()).getPath())));
     }
+
+    public CategoryDto(String name, String type) {
+        this.name = name;
+        this.type = type;
+        this.image = "error";
+    }
 }
