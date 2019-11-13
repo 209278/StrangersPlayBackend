@@ -16,11 +16,12 @@ public class AccountDto {
     @NotNull
     private String password;
     private boolean active;
-
     @NotNull
     private String email;
     private String firstName;
     private String lastName;
+    private String description;
+    private int level;
     private List<CommentDto> commentList;
 
 }

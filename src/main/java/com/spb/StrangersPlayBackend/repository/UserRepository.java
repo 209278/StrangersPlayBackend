@@ -10,6 +10,8 @@ import javax.transaction.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<AccountModel, Integer> {
 
+    AccountModel findAccountModelById(int id);
+
     AccountModel findAccountByUsername (String username);
 
     AccountModel findAccountByEmail (String email);
