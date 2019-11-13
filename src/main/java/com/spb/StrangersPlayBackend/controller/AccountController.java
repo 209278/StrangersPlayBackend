@@ -39,7 +39,7 @@ public class AccountController {
         }
     }
 
-    @PutMapping(value = "/user//{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity editUserProfile(@PathVariable String id, @RequestBody EditAccountDto editAccountDto) {
         return ResponseEntity.status(200).body(accountService.editUserProfile(Integer.parseInt(id), editAccountDto));
     }
