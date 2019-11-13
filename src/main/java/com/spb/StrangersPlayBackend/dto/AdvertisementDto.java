@@ -30,5 +30,5 @@ public class AdvertisementDto {
     private String eventTime;
     private Instant creationTime;
     private int authorId;
-    private String image;
+    private byte[] image;
 }
