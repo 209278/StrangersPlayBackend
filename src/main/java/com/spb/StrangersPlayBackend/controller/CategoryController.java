@@ -25,7 +25,7 @@ public class CategoryController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return null;
+                    return new CategoryDto(category.name(),category.getCategoryName());
                 })
                 .collect(toList());
     }
