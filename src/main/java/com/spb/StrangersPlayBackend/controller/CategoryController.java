@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +19,14 @@ public class CategoryController {
     @GetMapping("/category")
     public List<CategoryDto> getListOfCategory() {
         return Arrays.stream(Category.values())
-                .map(CategoryDto::new)
+                .map(category -> {
+                    try {
+                        return new CategoryDto(category);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                })
                 .collect(toList());
     }
 }

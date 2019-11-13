@@ -29,4 +29,6 @@ public class AdvertisementDto {
     @NotNull
     private String eventTime;
     private Instant creationTime;
+    private int authorId;
+    private byte[] image;
 }

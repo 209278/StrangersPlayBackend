@@ -27,6 +27,8 @@ public class AdvertisementModel {
     private int level;
     private Double price;
     private String eventLocation;
+    private int authorId;
+    private byte[] image;
     private String eventTime;
     @CreationTimestamp
     private Instant creationTime;
