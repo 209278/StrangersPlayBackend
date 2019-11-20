@@ -22,6 +22,7 @@ public class AccountDto {
     private String lastName;
     private String description;
     private int level;
+    private byte[] photo;
     private List<CommentDto> commentList;
 
 }
