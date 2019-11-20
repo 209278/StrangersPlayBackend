@@ -12,4 +12,6 @@ public class CommentDto {
     private String authorUsername;
     @NotNull
     private String description;
+    @NotNull
+    private int rate;
 }

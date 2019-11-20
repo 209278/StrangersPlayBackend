@@ -30,7 +30,6 @@ public class AdvertisementController {
         advertisementService.addNewAdvertisement(advertisementDto);
     }
 
-    @GetMapping("/advertisement")
     public List<AdvertisementSimpleResponse> getAdvertisementList() {
         return advertisementService.getListOfAllAdvertisement();
     }

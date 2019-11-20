@@ -26,6 +26,7 @@ public class AccountModel {
     private String description;
     private int level;
     private byte[] photo;
+    private double rating;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CommentModel> commentList =new ArrayList<>();
 

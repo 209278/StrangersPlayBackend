@@ -34,7 +34,7 @@ public class CommentController {
     }
 
     @GetMapping(value = "/comment/author/{authorUsername}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CommentDto getCommentByAuthor(@PathVariable String authorUsername){
+    public List<CommentDto> getCommentByAuthor(@PathVariable String authorUsername){
         return commentService.getCommentByAuthorUsername(authorUsername);
     }
 

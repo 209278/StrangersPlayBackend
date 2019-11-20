@@ -23,6 +23,7 @@ public class AccountDto {
     private String description;
     private int level;
     private byte[] photo;
+    private double rating;
     private List<CommentDto> commentList;
 
 }

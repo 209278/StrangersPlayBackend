@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -42,8 +43,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto getCommentByAuthorUsername(String authorUsername) {
-        return mapper.map(commentRepository.findCommentModelByAuthorUsername(authorUsername), CommentDto.class);
+    public List<CommentDto> getCommentByAuthorUsername(String authorUsername) {
+        List<CommentModel> commentModels = commentRepository.findCommentModelByAuthorUsername(authorUsername);
+        return commentModels.stream().map(commentModel -> mapper.map(commentModel, CommentDto.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -59,9 +61,15 @@ public class CommentServiceImpl implements CommentService {
         List<CommentModel> modelList = accountModel.getCommentList();
         modelList.add(commentModel);
         accountModel.setCommentList(modelList);
+
+        accountModel.setRating(calculateRating(accountModel.getCommentList()));
         accountService.updateUser(accountModel);
 
         return commentModel;
+    }
 
+    private double calculateRating(List<CommentModel> commentModelList){
+        double sumRating = commentModelList.stream().mapToDouble(CommentModel::getRate).sum();
+        return sumRating / commentModelList.size();
     }
 }
