@@ -10,4 +10,5 @@ public class EditAccountDto {
     private String firstName;
     private String lastName;
     private String description;
+    private byte[] photo;
 }

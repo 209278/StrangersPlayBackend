@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 
 @Service
 @Transactional
@@ -51,6 +52,8 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
             throw new NotUniqueUser("Not unique Email");
         } else {
             accountDto.setActive(true);
+            accountDto.setDescription("");
+            accountDto.setPhoto("".getBytes());
             accountDto.setPassword(passwordEncoder.encode(accountDto.getPassword()));
             return userRepository.save(mapperFacade.map(accountDto, AccountModel.class));
         }
@@ -68,10 +71,13 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
             user.setFirstName(editAccountDto.getFirstName());
         }
         if(!(editAccountDto.getLastName() == null) && !editAccountDto.getLastName().equals("")) {
-            user.setFirstName(editAccountDto.getLastName());
+            user.setLastName(editAccountDto.getLastName());
         }
         if(!(editAccountDto.getDescription() == null) && !editAccountDto.getDescription().equals("")) {
-            user.setFirstName(editAccountDto.getDescription());
+            user.setDescription(editAccountDto.getDescription());
+        }
+        if(!(editAccountDto.getPhoto() == null) && !Arrays.equals(editAccountDto.getPhoto(), "".getBytes())) {
+            user.setPhoto(editAccountDto.getPhoto());
         }
         return mapperFacade.map(userRepository.save(user), AccountDto.class);
     }
