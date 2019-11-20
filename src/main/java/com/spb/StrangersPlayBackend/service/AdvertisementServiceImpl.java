@@ -8,7 +8,10 @@ import com.spb.StrangersPlayBackend.exception.UserAlreadyJoinAdvertisementExcept
 import com.spb.StrangersPlayBackend.exception.UserIsNotInAdvertisementException;
 import com.spb.StrangersPlayBackend.mapper.DefaultMapper;
 import com.spb.StrangersPlayBackend.model.AdvertisementModel;
+import com.spb.StrangersPlayBackend.model.UserInAdvertisementModel;
 import com.spb.StrangersPlayBackend.repository.AdvertisementRepository;
+import com.spb.StrangersPlayBackend.repository.UserInAdvertisementRepository;
+import com.spb.StrangersPlayBackend.repository.UserRepository;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,12 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Autowired
     AdvertisementRepository advertisementRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    UserInAdvertisementRepository userInAdvertisementRepository;
 
     private MapperFacade mapper = new DefaultMapper();
 
@@ -44,14 +53,26 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    public void deleteAdvertisement(int id) {
+        advertisementRepository.deleteById(id);
+    }
+
+    @Override
     public AdvertisementDto joinAdvertisement(int id, int userId) {
         AdvertisementModel advertisement = advertisementRepository.findAdvertisementById(id);
+        UserInAdvertisementModel user;
         if(advertisement.getUserLimit() == 0) {
             throw new AdvertisementIsFullException("Advertisement is full");
         } else {
-            if(!advertisement.getUserIdsList().contains(userId) && ! (advertisement.getAuthorId()== userId))  {
+            if(userInAdvertisementRepository.findByUserId(userId) == null) {
+                user = new UserInAdvertisementModel(userRepository.findAccountModelById(userId).getUsername(), userId);
+            } else {
+                user = userInAdvertisementRepository.findByUserId(userId);
+            }
+            if(!advertisement.getUserIdsList().contains(user) && ! (advertisement.getAuthorId()== userId))  {
                 advertisement.setUserLimit(advertisement.getUserLimit()-1);
-                advertisement.addUserIdToUserList(userId);
+                advertisement.addUserIdToUserList(user);
+                userInAdvertisementRepository.save(user);
                 return mapper.map(advertisementRepository.save(advertisement), AdvertisementDto.class);
             } else {
                 throw new UserAlreadyJoinAdvertisementException("User already join advertisement");
@@ -65,8 +86,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         if(userId == advertisement.getAuthorId()) {
             throw new AuthorCanNotLeaveAdvertisementException("Author can not leave advertisement");
         } else {
-            if(advertisement.getUserIdsList().contains(userId)) {
-                advertisement.deleteUserIdFromUserList(userId);
+            UserInAdvertisementModel user = userInAdvertisementRepository.findByUserId(userId);
+            if(advertisement.getUserIdsList().contains(user)) {
+                advertisement.deleteUserIdFromUserList(user);
                 advertisement.setUserLimit(advertisement.getUserLimit()+1);
                 return mapper.map(advertisementRepository.save(advertisement), AdvertisementDto.class);
             } else {

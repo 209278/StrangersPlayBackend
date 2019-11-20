@@ -1,6 +1,7 @@
 package com.spb.StrangersPlayBackend.dto;
 
 import com.spb.StrangersPlayBackend.model.Category;
+import com.spb.StrangersPlayBackend.model.UserInAdvertisementModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +32,5 @@ public class AdvertisementDto {
     private int authorId;
     private byte[] image;
     private int userLimit;
-    private List<Integer> userIdsList;
-
-
+    private List<UserInAdvertisementModel> userIdsList;
 }

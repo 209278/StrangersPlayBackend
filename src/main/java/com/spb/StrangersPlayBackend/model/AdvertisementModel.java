@@ -29,16 +29,16 @@ public class AdvertisementModel {
     private byte[] image;
     private String eventTime;
     private int userLimit;
-    @ElementCollection
-    private List<Integer> userIdsList = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<UserInAdvertisementModel> userIdsList = new ArrayList<>();
     @CreationTimestamp
     private Instant creationTime;
 
-    public void addUserIdToUserList(int id) {
-        userIdsList.add(id);
+    public void addUserIdToUserList(UserInAdvertisementModel user) {
+        userIdsList.add(user);
     }
 
-    public void deleteUserIdFromUserList(int id) {
-        userIdsList.remove(userIdsList.indexOf(id));
+    public void deleteUserIdFromUserList(UserInAdvertisementModel user) {
+        userIdsList.remove(user);
     }
 }
