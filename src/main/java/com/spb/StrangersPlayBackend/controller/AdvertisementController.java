@@ -40,6 +40,12 @@ public class AdvertisementController {
         return advertisementService.getAdvertisementDetails(id);
     }
 
+    @DeleteMapping("/advertisement/{id}")
+    public ResponseEntity deleteAdvertisement(@PathVariable int id){
+        advertisementService.deleteAdvertisement(id);
+        return ResponseEntity.status(200).body(new CustomResponse(200, "Deleted"));
+    }
+
     @PostMapping("/advertisement/{id}/join/{userId}")
     public ResponseEntity joinAdvertisement(@PathVariable int id, @PathVariable int userId) {
         try {

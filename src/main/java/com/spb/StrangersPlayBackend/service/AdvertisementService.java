@@ -17,4 +17,6 @@ public interface AdvertisementService {
     AdvertisementDto joinAdvertisement(int id, int userId);
 
     AdvertisementDto leaveAdvertisement(int id, int userId);
+
+    void deleteAdvertisement(int id);
 }
