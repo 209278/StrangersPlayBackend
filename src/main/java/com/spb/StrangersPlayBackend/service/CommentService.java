@@ -10,7 +10,7 @@ public interface CommentService {
 
     CommentDto getComment(int id);
 
-    CommentDto getCommentByAuthorUsername(String authorUsername);
+    List<CommentDto> getCommentByAuthorUsername(String authorUsername);
 
     CommentModel addNewCommentForUser(CommentDto commentDto, String username);
 }

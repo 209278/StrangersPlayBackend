@@ -15,5 +15,6 @@ public class CommentModel {
     private int id;
 
     private String authorUsername;
+    private int rate;
     private String description;
 }
