@@ -29,7 +29,8 @@ public class AdvertisementController {
     public void addAdvertisement(@Valid @RequestBody AdvertisementDto advertisementDto) {
         advertisementService.addNewAdvertisement(advertisementDto);
     }
-
+    
+    @GetMapping("/advertisement")
     public List<AdvertisementSimpleResponse> getAdvertisementList() {
         return advertisementService.getListOfAllAdvertisement();
     }
