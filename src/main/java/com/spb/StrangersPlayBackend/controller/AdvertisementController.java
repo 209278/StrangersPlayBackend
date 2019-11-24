@@ -2,10 +2,7 @@ package com.spb.StrangersPlayBackend.controller;
 
 import com.spb.StrangersPlayBackend.dto.AdvertisementDto;
 import com.spb.StrangersPlayBackend.dto.AdvertisementSimpleResponse;
-import com.spb.StrangersPlayBackend.exception.AdvertisementIsFullException;
-import com.spb.StrangersPlayBackend.exception.AuthorCanNotLeaveAdvertisementException;
-import com.spb.StrangersPlayBackend.exception.UserAlreadyJoinAdvertisementException;
-import com.spb.StrangersPlayBackend.exception.UserIsNotInAdvertisementException;
+import com.spb.StrangersPlayBackend.exception.*;
 import com.spb.StrangersPlayBackend.response.CustomResponse;
 import com.spb.StrangersPlayBackend.service.AdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +48,10 @@ public class AdvertisementController {
         try {
             advertisementService.joinAdvertisement(id, userId);
             return ResponseEntity.status(200).body(new CustomResponse(200, "User joined"));
-        } catch (AdvertisementIsFullException e) {
+        } catch (AdvertisementIsFullException | UserAlreadyJoinAdvertisementException e) {
             return ResponseEntity.status(400).body(new CustomResponse(400, e.getMessage()));
-        } catch (UserAlreadyJoinAdvertisementException e) {
-            return ResponseEntity.status(400).body(new CustomResponse(400, e.getMessage()));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(404).body(new CustomResponse(404, e.getMessage()));
         }
     }
 

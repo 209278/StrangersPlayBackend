@@ -2,10 +2,7 @@ package com.spb.StrangersPlayBackend.service;
 
 import com.spb.StrangersPlayBackend.dto.AdvertisementDto;
 import com.spb.StrangersPlayBackend.dto.AdvertisementSimpleResponse;
-import com.spb.StrangersPlayBackend.exception.AdvertisementIsFullException;
-import com.spb.StrangersPlayBackend.exception.AuthorCanNotLeaveAdvertisementException;
-import com.spb.StrangersPlayBackend.exception.UserAlreadyJoinAdvertisementException;
-import com.spb.StrangersPlayBackend.exception.UserIsNotInAdvertisementException;
+import com.spb.StrangersPlayBackend.exception.*;
 import com.spb.StrangersPlayBackend.mapper.DefaultMapper;
 import com.spb.StrangersPlayBackend.model.AdvertisementModel;
 import com.spb.StrangersPlayBackend.model.UserInAdvertisementModel;
@@ -62,6 +59,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public AdvertisementDto joinAdvertisement(int id, int userId) {
         AdvertisementModel advertisement = advertisementRepository.findAdvertisementById(id);
         UserInAdvertisementModel user;
+        if(userRepository.findAccountModelById(userId) == null ) {
+            throw new UserNotFoundException("User not Found");
+        }
         if(advertisement.getUserLimit() <= advertisement.getUsersJoined()) {
             throw new AdvertisementIsFullException("Advertisement is full");
         } else {
