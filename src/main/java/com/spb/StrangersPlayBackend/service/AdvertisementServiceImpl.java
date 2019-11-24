@@ -37,6 +37,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public AdvertisementModel addNewAdvertisement(AdvertisementDto advertisementDto) {
+        advertisementDto.setUsersJoined(0);
         return advertisementRepository.save(mapper.map(advertisementDto, AdvertisementModel.class));
     }
 
@@ -61,7 +62,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public AdvertisementDto joinAdvertisement(int id, int userId) {
         AdvertisementModel advertisement = advertisementRepository.findAdvertisementById(id);
         UserInAdvertisementModel user;
-        if(advertisement.getUserLimit() == 0) {
+        if(advertisement.getUserLimit() <= advertisement.getUsersJoined()) {
             throw new AdvertisementIsFullException("Advertisement is full");
         } else {
             if(userInAdvertisementRepository.findByUserId(userId) == null) {
@@ -70,7 +71,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 user = userInAdvertisementRepository.findByUserId(userId);
             }
             if(!advertisement.getUserIdsList().contains(user) && ! (advertisement.getAuthorId()== userId))  {
-                advertisement.setUserLimit(advertisement.getUserLimit()-1);
+                advertisement.setUsersJoined(advertisement.getUsersJoined() + 1);
                 advertisement.addUserIdToUserList(user);
                 userInAdvertisementRepository.save(user);
                 return mapper.map(advertisementRepository.save(advertisement), AdvertisementDto.class);
@@ -89,7 +90,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             UserInAdvertisementModel user = userInAdvertisementRepository.findByUserId(userId);
             if(advertisement.getUserIdsList().contains(user)) {
                 advertisement.deleteUserIdFromUserList(user);
-                advertisement.setUserLimit(advertisement.getUserLimit()+1);
+                advertisement.setUsersJoined(advertisement.getUsersJoined() - 1);
                 return mapper.map(advertisementRepository.save(advertisement), AdvertisementDto.class);
             } else {
                 throw new UserIsNotInAdvertisementException("User is not in advertisement");

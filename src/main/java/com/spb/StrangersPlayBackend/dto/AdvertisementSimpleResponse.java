@@ -19,6 +19,7 @@ public class AdvertisementSimpleResponse {
     private Double price;
     private int authorId;
     private int userLimit;
+    private int usersJoined;
     private String eventTime;
     private String eventLocation;
     private Instant creationTime;

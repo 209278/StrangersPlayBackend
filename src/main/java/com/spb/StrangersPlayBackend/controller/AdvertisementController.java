@@ -29,7 +29,7 @@ public class AdvertisementController {
     public void addAdvertisement(@Valid @RequestBody AdvertisementDto advertisementDto) {
         advertisementService.addNewAdvertisement(advertisementDto);
     }
-    
+
     @GetMapping("/advertisement")
     public List<AdvertisementSimpleResponse> getAdvertisementList() {
         return advertisementService.getListOfAllAdvertisement();
@@ -41,7 +41,7 @@ public class AdvertisementController {
     }
 
     @DeleteMapping("/advertisement/{id}")
-    public ResponseEntity deleteAdvertisement(@PathVariable int id){
+    public ResponseEntity deleteAdvertisement(@PathVariable int id) {
         advertisementService.deleteAdvertisement(id);
         return ResponseEntity.status(200).body(new CustomResponse(200, "Deleted"));
     }
@@ -49,7 +49,8 @@ public class AdvertisementController {
     @PostMapping("/advertisement/{id}/join/{userId}")
     public ResponseEntity joinAdvertisement(@PathVariable int id, @PathVariable int userId) {
         try {
-            return ResponseEntity.status(200).body(advertisementService.joinAdvertisement(id, userId));
+            advertisementService.joinAdvertisement(id, userId);
+            return ResponseEntity.status(200).body(new CustomResponse(200, "User joined"));
         } catch (AdvertisementIsFullException e) {
             return ResponseEntity.status(400).body(new CustomResponse(400, e.getMessage()));
         } catch (UserAlreadyJoinAdvertisementException e) {
@@ -60,7 +61,8 @@ public class AdvertisementController {
     @DeleteMapping("/advertisement/{id}/join/{userId}")
     public ResponseEntity leaveAdvertisement(@PathVariable int id, @PathVariable int userId) {
         try {
-            return ResponseEntity.status(200).body(advertisementService.leaveAdvertisement(id, userId));
+            advertisementService.leaveAdvertisement(id, userId);
+            return ResponseEntity.status(200).body(new CustomResponse(200, "User left"));
         } catch (UserIsNotInAdvertisementException e) {
             return ResponseEntity.status(400).body(new CustomResponse(400, e.getMessage()));
         } catch (AuthorCanNotLeaveAdvertisementException e) {

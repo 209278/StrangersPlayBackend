@@ -32,5 +32,6 @@ public class AdvertisementDto {
     private int authorId;
     private byte[] image;
     private int userLimit;
+    private int usersJoined;
     private List<UserInAdvertisementModel> userIdsList;
 }

@@ -29,6 +29,7 @@ public class AdvertisementModel {
     private byte[] image;
     private String eventTime;
     private int userLimit;
+    private int usersJoined;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<UserInAdvertisementModel> userIdsList = new ArrayList<>();
     @CreationTimestamp
