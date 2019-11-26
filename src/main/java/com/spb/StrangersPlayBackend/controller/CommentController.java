@@ -1,7 +1,9 @@
 package com.spb.StrangersPlayBackend.controller;
 
 import com.spb.StrangersPlayBackend.dto.CommentDto;
+import com.spb.StrangersPlayBackend.exception.NoSuchUserException;
 import com.spb.StrangersPlayBackend.model.CommentModel;
+import com.spb.StrangersPlayBackend.response.CustomResponse;
 import com.spb.StrangersPlayBackend.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +21,13 @@ public class CommentController {
     CommentService commentService;
 
     @PostMapping("/comment/{username}")
-    public ResponseEntity<CommentModel> addComment(@PathVariable String username, @Valid @RequestBody CommentDto commentDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(commentService.addNewCommentForUser(commentDto, username));
+    public ResponseEntity<CustomResponse> addComment(@PathVariable String username, @Valid @RequestBody CommentDto commentDto) {
+        try {
+            commentService.addNewCommentForUser(commentDto, username);
+        }catch (NoSuchUserException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse(404, e.getMessage()));
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CustomResponse(200, "comment created"));
     }
 
     @GetMapping(value = "/comment/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
